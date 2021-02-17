@@ -19,17 +19,11 @@ dag = DAG(
     'git_sync',
     default_args=default_args,
     description='A simple tutorial DAG',
-    schedule_interval=timedelta(days=1),
+    schedule_interval=timedelta(seconds=20),
 )
 
 git_pull = BashOperator(
-    task_id='git_clone',
+    task_id='git_pull',
     bash_command='git -C /root/airflow/dags/ pull',
-    dag=dag,
-)
-
-pwd = BashOperator(
-    task_id='pwd',
-    bash_command='pwd',
     dag=dag,
 )

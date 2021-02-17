@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
@@ -7,12 +7,12 @@ from airflow.utils.dates import days_ago
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': days_ago(2),
+    'start_date': datetime(2020, 2, 17, 16, 49, 0),
     'email': ['airflow@example.com'],
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
-    'retry_delay': timedelta(minutes=5),
+    'retry_delay': timedelta(seconds=20),
 }
 
 dag = DAG(
@@ -25,5 +25,11 @@ dag = DAG(
 git_pull = BashOperator(
     task_id='git_clone',
     bash_command='git pull',
+    dag=dag,
+)
+
+pwd = BashOperator(
+    task_id='pwd',
+    bash_command='pwd',
     dag=dag,
 )
